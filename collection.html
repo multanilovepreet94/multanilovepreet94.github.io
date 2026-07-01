@@ -1,0 +1,144 @@
+<!-- Multi-page site. Shared design is in style.css; shared behaviour in script.js.
+     Edit each page's content here; [ brackets ] mark placeholders to replace. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collection — Your Name</title>
+<meta name="description" content="[ One-line description of you and your work ]">
+<script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="index.html">Your Name<small>[ FIELD ]</small></a>
+    <nav class="links" aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="collection.html" class="active">Collection</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle light / dark">
+      <span class="ic-sun" aria-hidden="true">☀</span><span class="ic-moon" aria-hidden="true">☾</span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section id="collection" class="file">
+  <div class="wrap">
+    <div class="filemark rise">
+      <span class="no">FILE 03</span>
+      <h2>Collection</h2>
+      <span class="of">BY THEME</span>
+    </div>
+
+    <!--
+      SUBCOLLECTION: each group below has its own editable heading.
+      To add another group, copy a whole <div class="subcollection"> … </div> block.
+      To use real images, replace a <div class="plate">…</div> with
+        <img class="plate" src="images/c01.jpg" alt="…">.
+    -->
+
+    <div class="subcollection rise">
+      <div class="subhead">
+        <span class="sn">C · I</span>
+        <h3>[ Subcollection heading — e.g. Fieldwork ]</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+      <div class="collection">
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.01"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item — what it is, where it's from, why it matters. ]">
+          <div class="plate" data-no="C.1"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.01</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.01</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.02"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.2"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.02</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.02</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.03"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.3"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.03</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.03</span></div>
+        </button>
+      </div>
+    </div>
+
+    <div class="subcollection rise">
+      <div class="subhead">
+        <span class="sn">C · II</span>
+        <h3>[ Subcollection heading — e.g. Maps &amp; Figures ]</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+      <div class="collection">
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.04"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.4"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.04</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.04</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.05"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.5"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.05</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.05</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.06"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ Duplicate a &lt;button class='item'&gt; block to add more items. ]">
+          <div class="plate" data-no="C.6"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.06</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.06</span></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div class="row">
+      <span class="name">Your Name</span>
+      <a href="mailto:you@example.edu">Email</a>
+      <a href="#">Google Scholar</a>
+      <a href="#">CV (PDF)</a>
+      <a href="#">ORCID</a>
+      <span class="set">Last updated [ Month Year ]</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Collection item detail">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <div class="lb-card">
+    <div class="plate" id="lbPlate" data-no=""></div>
+    <div class="lb-meta">
+      <span class="accession" id="lbAcc"></span>
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+      <dl id="lbDl">
+        <dt>Origin</dt><dd id="lbOrigin"></dd>
+        <dt>Medium</dt><dd id="lbMedium"></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

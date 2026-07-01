@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your Name</title>
+<title>Teaching — Your Name</title>
 <meta name="description" content="[ One-line description of you and your work ]">
 <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,9 +18,9 @@
   <div class="nav-in">
     <a class="wordmark" href="index.html">Your Name<small>[ FIELD ]</small></a>
     <nav class="links" aria-label="Pages">
-      <a href="index.html" class="active">Home</a>
+      <a href="index.html">Home</a>
       <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
+      <a href="teaching.html" class="active">Teaching</a>
       <a href="collection.html">Collection</a>
     </nav>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle light / dark">
@@ -31,29 +31,32 @@
 
 <main>
 
-<section id="home" class="hero">
-  <!-- BANNER: replace the div below with <img class="banner-img" src="images/banner.jpg" alt=""> -->
-  <div class="banner">
-    <div class="banner-img ph"><span class="cap">Banner — replace with a wide image (a map, photo, or detail from your work)</span></div>
-  </div>
+<section id="teaching" class="file">
   <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <div class="eyebrow rise">[ Your institution or field ]</div>
-        <h1 class="rise">Your <em>Name</em></h1>
-        <div class="role rise">[ Your Title ] · [ Department, Institution ]</div>
-        <p class="lede rise">[ Two or three sentences on what you study and why it matters. Keep it plain and specific — name the questions you work on, not just the field. This is the one paragraph most visitors actually read. ]</p>
-        <div class="meta rise">
-          <span>Field — [ Your Field ]</span>
-          <span>Based in — [ City ]</span>
-          <span>Contact — <a href="mailto:you@example.edu">you@example.edu</a></span>
-        </div>
+    <div class="filemark rise">
+      <span class="no">FILE 02</span>
+      <h2>Teaching</h2>
+      <span class="of">COURSES</span>
+    </div>
+
+    <div class="courses">
+      <div class="course rise">
+        <span class="term">Fall 2025</span>
+        <div class="code">[ COURSE 101 ]</div>
+        <h3>[ Course Title ]</h3>
+        <p>[ A sentence on what the course covers and who it's for. ]</p>
       </div>
-      <div class="hero-plate rise">
-        <!-- PLATE: replace this div with <img class="plate" src="images/portrait.jpg" alt="Portrait of Your Name"> -->
-        <div class="plate" data-no="I" style="aspect-ratio:4/5">
-          <span class="cap">Plate I · Portrait</span>
-        </div>
+      <div class="course rise">
+        <span class="term">Spring 2026</span>
+        <div class="code">[ COURSE 240 ]</div>
+        <h3>[ Course Title ]</h3>
+        <p>[ A sentence on what the course covers and who it's for. ]</p>
+      </div>
+      <div class="course rise">
+        <span class="term">Seminar</span>
+        <div class="code">[ COURSE 580 ]</div>
+        <h3>[ Course Title ]</h3>
+        <p>[ Duplicate a &lt;div class="course"&gt; block to add more. ]</p>
       </div>
     </div>
   </div>

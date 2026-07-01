@@ -1,0 +1,156 @@
+<!-- Multi-page site. Shared design is in style.css; shared behaviour in script.js.
+     Edit each page's content here; [ brackets ] mark placeholders to replace. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research — Your Name</title>
+<meta name="description" content="[ One-line description of you and your work ]">
+<script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="index.html">Your Name<small>[ FIELD ]</small></a>
+    <nav class="links" aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="research.html" class="active">Research</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="collection.html">Collection</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle light / dark">
+      <span class="ic-sun" aria-hidden="true">☀</span><span class="ic-moon" aria-hidden="true">☾</span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section id="research" class="file">
+  <div class="wrap">
+    <div class="filemark rise">
+      <span class="no">FILE 01</span>
+      <h2>Research</h2>
+      <span class="of">SELECTED WORK</span>
+    </div>
+
+    <div class="subcollection rise research-group">
+      <div class="subhead">
+        <span class="sn">R · I</span>
+        <h3>Working Papers</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+
+    <article class="record rise">
+      <div class="plate zoomable" data-no="R.1" data-acc="R.001" role="button" tabindex="0" aria-label="Enlarge project image">
+        <span class="cap">R.001</span><span class="zoom-hint" aria-hidden="true">⤢</span>
+      </div>
+      <div class="body">
+        <div class="head">
+          <span class="accession">R.001</span>
+          <span class="yr">2026</span>
+        </div>
+        <h3>[ Title of the paper, book, or project ]</h3>
+        <p>[ One or two sentences describing the work: the question, the method, the finding. Written for a smart reader outside your subfield. ]</p>
+        <div class="tags">
+          <a href="#">PDF</a><a href="#">DOI</a><a href="#">Code</a>
+        </div>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <div class="abs-body">[ Paste the full abstract here. Visitors click "Abstract" to expand it, keeping the list scannable. ]</div>
+        </details>
+      </div>
+    </article>
+
+    <article class="record rise">
+      <div class="plate zoomable" data-no="R.2" data-acc="R.002" role="button" tabindex="0" aria-label="Enlarge project image">
+        <span class="cap">R.002</span><span class="zoom-hint" aria-hidden="true">⤢</span>
+      </div>
+      <div class="body">
+        <div class="head">
+          <span class="accession">R.002</span>
+          <span class="yr">2025</span>
+        </div>
+        <h3>[ Second project or publication ]</h3>
+        <p>[ Short description. Duplicate this whole &lt;article&gt; block to add more entries. ]</p>
+        <div class="tags">
+          <a href="#">PDF</a><a href="#">Slides</a>
+        </div>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <div class="abs-body">[ Abstract text. ]</div>
+        </details>
+      </div>
+    </article>
+    </div>
+
+    <div class="subcollection rise research-group">
+      <div class="subhead">
+        <span class="sn">R · II</span>
+        <h3>Work in Progress</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+
+    <article class="record rise">
+      <div class="plate zoomable" data-no="R.3" data-acc="R.003" role="button" tabindex="0" aria-label="Enlarge project image">
+        <span class="cap">R.003</span><span class="zoom-hint" aria-hidden="true">⤢</span>
+      </div>
+      <div class="body">
+        <div class="head">
+          <span class="accession">R.003</span>
+          <span class="yr">2024</span>
+        </div>
+        <h3>[ Third project or publication ]</h3>
+        <p>[ Short description. ]</p>
+        <div class="tags">
+          <a href="#">PDF</a><a href="#">Data</a>
+        </div>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <div class="abs-body">[ Abstract text. ]</div>
+        </details>
+      </div>
+    </article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div class="row">
+      <span class="name">Your Name</span>
+      <a href="mailto:you@example.edu">Email</a>
+      <a href="#">Google Scholar</a>
+      <a href="#">CV (PDF)</a>
+      <a href="#">ORCID</a>
+      <span class="set">Last updated [ Month Year ]</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Collection item detail">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <div class="lb-card">
+    <div class="plate" id="lbPlate" data-no=""></div>
+    <div class="lb-meta">
+      <span class="accession" id="lbAcc"></span>
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+      <dl id="lbDl">
+        <dt>Origin</dt><dd id="lbOrigin"></dd>
+        <dt>Medium</dt><dd id="lbMedium"></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
