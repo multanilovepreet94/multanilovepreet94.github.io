@@ -200,7 +200,7 @@
   .record:nth-of-type(even) .plate{ order:2; }   /* alternate image to the right */
   .record .body{ max-width:50ch; }
   .record .head{ display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
-  .record h3{ font-family:var(--serif); font-weight:500; font-size:clamp(22px,2.6vw,30px);
+  .record h3{ font-family:var(--serif); font-weight:500; font-size:clamp(19px,2.2vw,25px);
               line-height:1.1; letter-spacing:-.01em; }
   .record .yr{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.06em; }
   .record p{ color:var(--ink-soft); margin-bottom:14px; }
@@ -224,7 +224,7 @@
   .course p{ color:var(--ink-soft); font-size:15.5px; }
 
   /* ---- collection gallery (the centerpiece) --------------------------- */
-  .collection{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(16px,3vw,30px); }
+  .collection{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(12px,1.6vw,18px); }
   .item{ cursor:pointer; border:none; background:none; padding:0; text-align:left;
          font:inherit; color:inherit; }
   .item .plate{ aspect-ratio:1/1; transition:border-color .3s; }
@@ -251,7 +251,7 @@
   .subhead{ display:flex; align-items:baseline; gap:14px; margin-bottom:22px;
             padding-bottom:11px; border-bottom:1px solid var(--rule); }
   .subhead .sn{ font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.1em; }
-  .subhead h3{ font-family:var(--serif); font-weight:500; font-size:clamp(20px,2.6vw,27px);
+  .subhead h3{ font-family:var(--serif); font-weight:500; font-size:clamp(16px,1.9vw,20px);
                line-height:1.1; letter-spacing:-.005em; }
   .subhead .ct{ margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--muted);
                 letter-spacing:.16em; text-transform:uppercase; }
@@ -303,7 +303,7 @@
     .lb-card .plate{ border-right:none; border-bottom:1px solid var(--rule); min-height:260px; }
   }
   @media (max-width:520px){
-    .collection{ gap:12px; }
+    .collection{ grid-template-columns:repeat(2,1fr); gap:12px; }
   }
 
   /* ---- accessibility: respect reduced motion ------------------------- */
@@ -316,6 +316,21 @@
 
   /* multi-page: first section sits directly under the nav */
   main > section.file:first-child{ border-top:none; }
+
+  /* --- de-catalogued: hide accession codes, file marks & plate numbers --- */
+  .filemark .no{ display:none; }            /* FILE 01 / 02 / 03 */
+  .subhead .sn{ display:none; }             /* R · I , C · I markers */
+  .record .head .accession{ display:none; } /* R.001 code (year is kept) */
+  .plate .cap{ display:none; }              /* R.001 / plate captions */
+  .plate::before{ content:"" !important; }  /* faint ghost numbers */
+  .item .label .no{ display:none; }         /* C.01 under gallery items */
+  .item .reveal .a{ display:none; }         /* C.01 in hover overlay */
+  .lb-meta .accession{ display:none; }      /* code in enlarged view */
+
+  /* hide placeholder notes & section side-labels */
+  .subhead .ct{ display:none; }             /* [ note ] */
+  .filemark .of{ display:none; }            /* SELECTED WORK / BY THEME / COURSES */
+  .banner-img.ph .cap{ display:none; }      /* banner instruction caption */
 </style>
 </head>
 <body>
@@ -427,18 +442,6 @@
 
 </main>
 
-<footer class="colophon">
-  <div class="wrap">
-    <div class="row">
-      <span class="name">Your Name</span>
-      <a href="mailto:you@example.edu">Email</a>
-      <a href="#">Google Scholar</a>
-      <a href="#">CV (PDF)</a>
-      <a href="#">ORCID</a>
-      <span class="set">Last updated [ Month Year ]</span>
-    </div>
-  </div>
-</footer>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Collection item detail">
   <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
