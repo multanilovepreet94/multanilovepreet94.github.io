@@ -1,0 +1,695 @@
+<!--
+  ============================================================================
+  PERSONAL ACADEMIC SITE  —  "The Archive" design
+  ============================================================================
+  This is a single self-contained file. To put it online with GitHub Pages:
+    1. Put this file in your repo, named exactly  index.html
+    2. Settings -> Pages -> Source: deploy from your `main` branch, root (/)
+    3. Visit  https://YOURUSERNAME.github.io
+
+  ----------------------------------------------------------------------------
+  HOW TO EDIT  (search the file for these markers)
+  ----------------------------------------------------------------------------
+  [ ... ]   = every bracketed bit is placeholder text to replace.
+  PLATE     = image slots. To use a real photo, replace the
+              <div class="plate">…</div> block with:
+                  <img class="plate" src="images/your-photo.jpg" alt="description">
+              For RESEARCH images, keep the extra bits so click-to-enlarge works:
+                  <img class="plate zoomable" data-acc="R.001" src="images/r1.jpg" alt="…">
+              (make an /images folder in your repo and drop photos there)
+  ABSTRACTS = each research entry has a collapsible <details class="abs">.
+              Put the abstract text inside its <div class="abs-body">.
+  DARK MODE = the ☀/☾ button in the nav toggles it; the page also follows the
+              visitor's system setting automatically and remembers their choice.
+  Colors & fonts live in the :root block at the top of <style>
+              (dark-mode colors are in the html[data-theme="dark"] block just below).
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name</title>
+<meta name="description" content="[ One-line description of you and your work — shows in search results ]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:    #FBFAF6;   /* near-white warm paper          */
+    --paper-2:  #FFFFFF;   /* white card / plate surface     */
+    --ink:      #1C2B28;   /* deep pine-slate (near-black)  */
+    --ink-soft: #43504C;   /* secondary text                */
+    --muted:    #847B68;   /* captions, meta, mono labels   */
+    --accent:   #294B8C;   /* fountain-pen cobalt           */
+    --rule:     #D7CFBE;   /* hairline rules                */
+
+    --serif: "Fraunces", Georgia, serif;
+    --sans:  "Archivo", system-ui, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+
+    --edge: clamp(20px, 6vw, 110px);   /* page side margin   */
+    --maxw: 1440px;
+
+    --grain:   rgba(28,43,40,.07);     /* paper grain dots    */
+    --scrim:   rgba(16,22,20,.92);     /* always-dark overlay on images */
+    --on-scrim:#F1ECE0;                /* light text on scrim */
+    --overlay: rgba(16,22,20,.80);     /* lightbox backdrop   */
+  }
+
+  /* dark theme — same identity, parchment becomes the ink */
+  html[data-theme="dark"]{
+    --paper:#16201E; --paper-2:#1F2B28; --ink:#E8E2D4; --ink-soft:#B6B2A3;
+    --muted:#8C8670; --accent:#86ABE8; --rule:#33403A; --grain:rgba(232,226,212,.05);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .4s ease, color .4s ease;
+  }
+  a{ color:inherit; }
+  img{ display:block; max-width:100%; }
+  ::selection{ background:var(--accent); color:#fff; }
+  h1,h2,h3{ text-wrap:balance; }
+  p{ text-wrap:pretty; }
+  section[id], #home{ scroll-margin-top:78px; }   /* keep anchors clear of sticky nav */
+
+  /* faint paper grain over the whole page */
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:.3; mix-blend-mode:multiply;
+    background-image:
+      radial-gradient(circle at 1px 1px, var(--grain) 1px, transparent 0);
+    background-size:4px 4px;
+  }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--edge); position:relative; z-index:1; }
+
+  /* ---- shared bits ---------------------------------------------------- */
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .accession{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:var(--accent); }
+  .filemark{ display:flex; align-items:baseline; gap:18px; border-bottom:1px solid var(--rule);
+             padding-bottom:14px; margin-bottom:46px; }
+  .filemark .no{ font-family:var(--mono); font-size:13px; color:var(--accent); letter-spacing:.1em; }
+  .filemark h2{ font-family:var(--serif); font-weight:600; font-size:clamp(26px,4vw,40px);
+                line-height:1; letter-spacing:-.01em; }
+  .filemark .of{ margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--muted);
+                 letter-spacing:.18em; }
+
+  /* image placeholder plate (replace with <img class="plate">) */
+  .plate{
+    position:relative; background:var(--paper-2);
+    border:1px solid var(--rule); aspect-ratio:4/5; overflow:hidden;
+    display:flex; align-items:flex-end; justify-content:flex-start;
+  }
+  .plate::before{   /* big faint accession ghost number */
+    content:attr(data-no); position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-weight:900; font-size:clamp(40px,7vw,84px);
+    color:var(--ink); opacity:.06; letter-spacing:-.03em;
+  }
+  .plate::after{    /* corner registration mark */
+    content:""; position:absolute; top:10px; left:10px; width:14px; height:14px;
+    border-top:1.5px solid var(--muted); border-left:1.5px solid var(--muted); opacity:.55;
+  }
+  .plate .cap{
+    position:relative; font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+    color:var(--muted); padding:10px 12px; text-transform:uppercase;
+  }
+  img.plate{ width:100%; height:100%; object-fit:cover; }
+
+  /* expandable abstract (native <details>, no JS, keyboard-accessible) */
+  .abs{ margin-top:16px; }
+  .abs summary{ cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .abs summary::-webkit-details-marker{ display:none; }
+  .abs summary::before{ content:"+"; display:inline-grid; place-items:center; width:16px; height:16px;
+    border:1px solid var(--accent); border-radius:2px; font-size:12px; line-height:1; }
+  .abs[open] summary::before{ content:"\2013"; }
+  .abs .abs-body{ margin-top:13px; padding:15px 17px; background:var(--paper-2); border:1px solid var(--rule);
+    border-radius:3px; color:var(--ink-soft); font-size:15px; line-height:1.6; max-width:74ch; }
+
+  /* clickable / enlargeable plate */
+  .plate.zoomable{ cursor:zoom-in; transition:border-color .25s, box-shadow .25s, transform .25s; }
+  .plate.zoomable:hover{ border-color:var(--accent);
+    box-shadow:0 10px 34px -16px rgba(0,0,0,.45); transform:translateY(-2px); }
+  .plate .zoom-hint{ position:absolute; top:10px; right:10px; width:24px; height:24px; border-radius:50%;
+    background:var(--scrim); color:var(--on-scrim); display:grid; place-items:center; font-size:12px;
+    opacity:0; transition:opacity .25s; }
+  .plate.zoomable:hover .zoom-hint{ opacity:1; }
+
+  /* theme toggle */
+  .theme-toggle{ margin-left:8px; width:34px; height:30px; display:inline-grid; place-items:center;
+    background:transparent; border:1px solid var(--rule); border-radius:2px; cursor:pointer;
+    color:var(--ink-soft); font-size:14px; transition:border-color .2s, color .2s; }
+  .theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+  .ic-moon{ display:none; }
+  html[data-theme="dark"] .ic-sun{ display:none; }
+  html[data-theme="dark"] .ic-moon{ display:inline; }
+
+  /* ---- top navigation ------------------------------------------------- */
+  header.nav{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-in{ max-width:var(--maxw); margin:0 auto; padding:14px var(--edge);
+           display:flex; align-items:center; gap:24px; }
+  .wordmark{ font-family:var(--serif); font-weight:600; font-size:18px; letter-spacing:-.01em;
+             text-decoration:none; white-space:nowrap; }
+  .wordmark small{ font-family:var(--mono); font-weight:400; font-size:10px; color:var(--muted);
+                   letter-spacing:.2em; display:block; margin-top:-2px; }
+  nav.links{ margin-left:auto; display:flex; gap:6px; flex-wrap:wrap; }
+  nav.links a{
+    font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    text-decoration:none; color:var(--ink-soft); padding:7px 12px; border-radius:2px;
+    transition:color .2s, background .2s;
+  }
+  nav.links a:hover{ color:var(--ink); }
+  nav.links a.active{ color:var(--accent); background:color-mix(in srgb,var(--accent) 9%,transparent); }
+
+  /* ---- hero / home ---------------------------------------------------- */
+  .hero{ padding:0 0 clamp(50px,8vw,90px); }
+  .banner{ width:100%; height:clamp(190px,34vw,380px); overflow:hidden; border-bottom:1px solid var(--rule); }
+  .banner-img{ width:100%; height:100%; object-fit:cover; }
+  .banner-img.ph{ background:
+      repeating-linear-gradient(135deg, var(--paper-2) 0 22px, color-mix(in srgb,var(--paper-2) 60%,var(--paper)) 22px 44px);
+      display:flex; align-items:flex-end; }
+  .banner-img.ph .cap{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+                       color:var(--muted); padding:12px 16px; }
+  .hero .wrap{ padding-top:clamp(40px,7vw,78px); }
+  .hero-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:clamp(28px,5vw,72px); align-items:end; }
+  .hero .eyebrow{ margin-bottom:22px; }
+  .hero h1{
+    font-family:var(--serif); font-weight:400; letter-spacing:-.025em; line-height:.96;
+    font-size:clamp(52px,10vw,116px); margin-bottom:24px;
+  }
+  .hero h1 em{ font-style:italic; }
+  .hero .role{ font-family:var(--mono); font-size:13px; letter-spacing:.06em; color:var(--accent);
+               text-transform:uppercase; margin-bottom:26px; }
+  .hero .lede{ font-size:clamp(18px,2vw,21px); max-width:46ch; color:var(--ink-soft); }
+  .hero .meta{ margin-top:34px; display:flex; flex-wrap:wrap; gap:8px 26px;
+               border-top:1px solid var(--rule); padding-top:20px; }
+  .hero .meta span{ font-family:var(--mono); font-size:12px; letter-spacing:.04em; color:var(--muted); }
+  .hero .meta a{ color:var(--accent); text-decoration:none; }
+  .hero .meta a:hover{ text-decoration:underline; }
+  .hero-plate{ max-width:360px; margin-left:auto; width:100%; }
+  /* staggered entrance for the hero text */
+  .hero-grid > div > .rise:nth-child(1){ transition-delay:.04s; }
+  .hero-grid > div > .rise:nth-child(2){ transition-delay:.12s; }
+  .hero-grid > div > .rise:nth-child(3){ transition-delay:.20s; }
+  .hero-grid > div > .rise:nth-child(4){ transition-delay:.28s; }
+  .hero-grid > div > .rise:nth-child(5){ transition-delay:.36s; }
+  .hero-plate.rise{ transition-delay:.30s; }
+
+  /* ---- section frame -------------------------------------------------- */
+  section.file{ padding:clamp(54px,8vw,96px) 0; border-top:1px solid var(--rule); }
+
+  /* ---- research records ----------------------------------------------- */
+  .record{
+    display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(26px,5vw,64px);
+    padding:clamp(34px,5vw,58px) 0; border-bottom:1px solid var(--rule); align-items:center;
+  }
+  .record:first-of-type{ border-top:1px solid var(--rule); }
+  .record .plate{ aspect-ratio:3/2; transition:border-color .25s; }
+  .record .plate:hover{ border-color:var(--accent); }
+  .record:nth-of-type(even) .plate{ order:2; }   /* alternate image to the right */
+  .record .body{ max-width:50ch; }
+  .record .head{ display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
+  .record h3{ font-family:var(--serif); font-weight:500; font-size:clamp(22px,2.6vw,30px);
+              line-height:1.1; letter-spacing:-.01em; }
+  .record .yr{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.06em; }
+  .record p{ color:var(--ink-soft); margin-bottom:14px; }
+  .record .tags{ display:flex; gap:10px; flex-wrap:wrap; }
+  .record .tags a{
+    font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    text-decoration:none; color:var(--accent); border:1px solid var(--rule);
+    padding:5px 11px; border-radius:2px; transition:border-color .2s, background .2s;
+  }
+  .record .tags a:hover{ border-color:var(--accent); background:color-mix(in srgb,var(--accent) 7%,transparent); transform:translateY(-1px); }
+  .record .tags a{ transition:border-color .2s, background .2s, transform .2s; }
+
+  /* ---- teaching cards ------------------------------------------------- */
+  .courses{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .course{ border:1px solid var(--rule); background:var(--paper-2); padding:26px 26px 28px; border-radius:3px; }
+  .course .term{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+                 color:var(--accent); margin-bottom:14px; display:inline-block;
+                 border-bottom:1px solid var(--accent); padding-bottom:3px; }
+  .course .code{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.06em; }
+  .course h3{ font-family:var(--serif); font-weight:500; font-size:23px; line-height:1.15; margin:4px 0 12px; }
+  .course p{ color:var(--ink-soft); font-size:15.5px; }
+
+  /* ---- collection gallery (the centerpiece) --------------------------- */
+  .collection{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(16px,3vw,30px); }
+  .item{ cursor:pointer; border:none; background:none; padding:0; text-align:left;
+         font:inherit; color:inherit; }
+  .item .plate{ aspect-ratio:1/1; transition:border-color .3s; }
+  .item .frame{ position:absolute; inset:0; overflow:hidden; }
+  .item .reveal{
+    position:absolute; left:0; right:0; bottom:0; padding:14px 14px 16px;
+    background:linear-gradient(to top, var(--scrim), transparent);
+    transform:translateY(101%); transition:transform .34s cubic-bezier(.2,.7,.2,1);
+  }
+  .item .reveal .t{ font-family:var(--serif); color:var(--on-scrim); font-size:16px; line-height:1.2; }
+  .item .reveal .a{ font-family:var(--mono); color:color-mix(in srgb,var(--on-scrim) 70%,var(--accent));
+                    font-size:11px; letter-spacing:.1em; margin-top:4px; }
+  .item:hover .reveal, .item:focus-visible .reveal{ transform:translateY(0); }
+  .item:hover .plate, .item:focus-visible .plate{ border-color:var(--accent); }
+  .item{ transition:transform .25s; }
+  .item:hover{ transform:translateY(-3px); }
+  .item .label{ margin-top:11px; display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+  .item .label .ttl{ font-family:var(--serif); font-size:17px; line-height:1.15; }
+  .item .label .no{ font-family:var(--mono); font-size:11px; color:var(--accent); letter-spacing:.08em; white-space:nowrap; }
+
+  /* ---- subcollections (editable groups within Collection) ---- */
+  .subcollection{ margin-top:clamp(40px,5vw,60px); }
+  .subcollection:first-of-type{ margin-top:0; }
+  .subhead{ display:flex; align-items:baseline; gap:14px; margin-bottom:22px;
+            padding-bottom:11px; border-bottom:1px solid var(--rule); }
+  .subhead .sn{ font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.1em; }
+  .subhead h3{ font-family:var(--serif); font-weight:500; font-size:clamp(20px,2.6vw,27px);
+               line-height:1.1; letter-spacing:-.005em; }
+  .subhead .ct{ margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--muted);
+                letter-spacing:.16em; text-transform:uppercase; }
+  /* inside a research group the subhead rule already opens the list */
+  .research-group .record:first-of-type{ border-top:none; }
+
+  /* ---- lightbox ------------------------------------------------------- */
+  .lightbox{
+    position:fixed; inset:0; z-index:50; display:none; place-items:center; padding:24px;
+    background:var(--overlay); backdrop-filter:blur(4px);
+  }
+  .lightbox.open{ display:grid; }
+  .lb-card{ background:var(--paper); border:1px solid var(--rule); max-width:780px; width:100%;
+            max-height:90vh; overflow:auto; display:grid; grid-template-columns:1fr 1fr; }
+  .lb-card .plate{ aspect-ratio:auto; height:100%; min-height:340px; border:none; border-right:1px solid var(--rule); }
+  .lb-meta{ padding:30px 30px 34px; }
+  .lb-meta .accession{ margin-bottom:16px; display:block; }
+  .lb-meta h3{ font-family:var(--serif); font-weight:500; font-size:27px; line-height:1.15; margin-bottom:14px; }
+  .lb-meta p{ color:var(--ink-soft); font-size:15.5px; margin-bottom:18px; }
+  .lb-meta dl{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.04em;
+               display:grid; grid-template-columns:auto 1fr; gap:7px 16px; }
+  .lb-meta dt{ color:var(--accent); }
+  .lb-close{ position:absolute; top:18px; right:22px; background:var(--paper); border:1px solid var(--rule);
+             width:40px; height:40px; border-radius:50%; cursor:pointer; font-family:var(--mono);
+             font-size:16px; color:var(--ink); line-height:1; }
+  .lb-close:hover{ border-color:var(--accent); color:var(--accent); }
+
+  /* ---- footer --------------------------------------------------------- */
+  footer.colophon{ border-top:1px solid var(--rule); padding:48px 0 64px; }
+  .colophon .row{ display:flex; flex-wrap:wrap; gap:24px 40px; align-items:baseline; }
+  .colophon .name{ font-family:var(--serif); font-size:22px; font-weight:500; }
+  .colophon a{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:var(--accent);
+               text-decoration:none; text-transform:uppercase; }
+  .colophon a:hover{ text-decoration:underline; }
+  .colophon .set{ margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--muted);
+                  letter-spacing:.1em; }
+
+  /* ---- reveal-on-scroll ---------------------------------------------- */
+  .rise{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .rise.in{ opacity:1; transform:none; }
+
+  /* ---- responsive ----------------------------------------------------- */
+  @media (max-width:820px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-plate{ max-width:240px; margin:8px 0 0; order:-1; }
+    .record{ grid-template-columns:1fr; gap:20px; }
+    .record .plate{ order:-1 !important; aspect-ratio:16/9; }
+    .lb-card{ grid-template-columns:1fr; }
+    .lb-card .plate{ border-right:none; border-bottom:1px solid var(--rule); min-height:260px; }
+  }
+  @media (max-width:520px){
+    .collection{ gap:12px; }
+  }
+
+  /* ---- accessibility: respect reduced motion ------------------------- */
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; animation:none !important; }
+    .rise{ opacity:1; transform:none; }
+  }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<!-- ====================== NAV ====================== -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="wordmark" href="#home">Your Name<small>[ FIELD ]</small></a>
+    <nav class="links" aria-label="Sections">
+      <a href="#home">Home</a>
+      <a href="#research">Research</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#collection">Collection</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle light / dark">
+      <span class="ic-sun" aria-hidden="true">☀</span><span class="ic-moon" aria-hidden="true">☾</span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ====================== HOME / HERO ====================== -->
+<section id="home" class="hero">
+  <!-- BANNER: replace the div below with <img class="banner-img" src="images/banner.jpg" alt=""> -->
+  <div class="banner">
+    <div class="banner-img ph"><span class="cap">Banner — replace with a wide image (a map, photo, or detail from your work)</span></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow rise">[ Your institution or field ]</div>
+        <h1 class="rise">Your <em>Name</em></h1>
+        <div class="role rise">[ Your Title ] · [ Department, Institution ]</div>
+        <p class="lede rise">[ Two or three sentences on what you study and why it matters. Keep it plain and specific — name the questions you work on, not just the field. This is the one paragraph most visitors actually read. ]</p>
+        <div class="meta rise">
+          <span>Field — [ Your Field ]</span>
+          <span>Based in — [ City ]</span>
+          <span>Contact — <a href="mailto:you@example.edu">you@example.edu</a></span>
+        </div>
+      </div>
+      <div class="hero-plate rise">
+        <!-- PLATE: replace this div with <img class="plate" src="images/portrait.jpg" alt="Portrait of Your Name"> -->
+        <div class="plate" data-no="I" style="aspect-ratio:4/5">
+          <span class="cap">Plate I · Portrait</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== RESEARCH ====================== -->
+<section id="research" class="file">
+  <div class="wrap">
+    <div class="filemark rise">
+      <span class="no">FILE 01</span>
+      <h2>Research</h2>
+      <span class="of">SELECTED WORK</span>
+    </div>
+
+    <div class="subcollection rise research-group">
+      <div class="subhead">
+        <span class="sn">R · I</span>
+        <h3>Working Papers</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+
+    <article class="record rise">
+      <div class="plate zoomable" data-no="R.1" data-acc="R.001" role="button" tabindex="0" aria-label="Enlarge project image">
+        <span class="cap">R.001</span><span class="zoom-hint" aria-hidden="true">⤢</span>
+      </div>
+      <div class="body">
+        <div class="head">
+          <span class="accession">R.001</span>
+          <span class="yr">2026</span>
+        </div>
+        <h3>[ Title of the paper, book, or project ]</h3>
+        <p>[ One or two sentences describing the work: the question, the method, the finding. Written for a smart reader outside your subfield. ]</p>
+        <div class="tags">
+          <a href="#">PDF</a><a href="#">DOI</a><a href="#">Code</a>
+        </div>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <div class="abs-body">[ Paste the full abstract here. Visitors click "Abstract" to expand it, keeping the list scannable. ]</div>
+        </details>
+      </div>
+    </article>
+
+    <article class="record rise">
+      <div class="plate zoomable" data-no="R.2" data-acc="R.002" role="button" tabindex="0" aria-label="Enlarge project image">
+        <span class="cap">R.002</span><span class="zoom-hint" aria-hidden="true">⤢</span>
+      </div>
+      <div class="body">
+        <div class="head">
+          <span class="accession">R.002</span>
+          <span class="yr">2025</span>
+        </div>
+        <h3>[ Second project or publication ]</h3>
+        <p>[ Short description. Duplicate this whole &lt;article&gt; block to add more entries. ]</p>
+        <div class="tags">
+          <a href="#">PDF</a><a href="#">Slides</a>
+        </div>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <div class="abs-body">[ Abstract text. ]</div>
+        </details>
+      </div>
+    </article>
+    </div>
+
+    <div class="subcollection rise research-group">
+      <div class="subhead">
+        <span class="sn">R · II</span>
+        <h3>Work in Progress</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+
+    <article class="record rise">
+      <div class="plate zoomable" data-no="R.3" data-acc="R.003" role="button" tabindex="0" aria-label="Enlarge project image">
+        <span class="cap">R.003</span><span class="zoom-hint" aria-hidden="true">⤢</span>
+      </div>
+      <div class="body">
+        <div class="head">
+          <span class="accession">R.003</span>
+          <span class="yr">2024</span>
+        </div>
+        <h3>[ Third project or publication ]</h3>
+        <p>[ Short description. ]</p>
+        <div class="tags">
+          <a href="#">PDF</a><a href="#">Data</a>
+        </div>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <div class="abs-body">[ Abstract text. ]</div>
+        </details>
+      </div>
+    </article>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== TEACHING ====================== -->
+<section id="teaching" class="file">
+  <div class="wrap">
+    <div class="filemark rise">
+      <span class="no">FILE 02</span>
+      <h2>Teaching</h2>
+      <span class="of">COURSES</span>
+    </div>
+
+    <div class="courses">
+      <div class="course rise">
+        <span class="term">Fall 2025</span>
+        <div class="code">[ COURSE 101 ]</div>
+        <h3>[ Course Title ]</h3>
+        <p>[ A sentence on what the course covers and who it's for. ]</p>
+      </div>
+      <div class="course rise">
+        <span class="term">Spring 2026</span>
+        <div class="code">[ COURSE 240 ]</div>
+        <h3>[ Course Title ]</h3>
+        <p>[ A sentence on what the course covers and who it's for. ]</p>
+      </div>
+      <div class="course rise">
+        <span class="term">Seminar</span>
+        <div class="code">[ COURSE 580 ]</div>
+        <h3>[ Course Title ]</h3>
+        <p>[ Duplicate a &lt;div class="course"&gt; block to add more. ]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== COLLECTION ====================== -->
+<section id="collection" class="file">
+  <div class="wrap">
+    <div class="filemark rise">
+      <span class="no">FILE 03</span>
+      <h2>Collection</h2>
+      <span class="of">BY THEME</span>
+    </div>
+
+    <!--
+      SUBCOLLECTION: each group below has its own editable heading.
+      To add another group, copy a whole <div class="subcollection"> … </div> block.
+      To use real images, replace a <div class="plate">…</div> with
+        <img class="plate" src="images/c01.jpg" alt="…">.
+    -->
+
+    <div class="subcollection rise">
+      <div class="subhead">
+        <span class="sn">C · I</span>
+        <h3>[ Subcollection heading — e.g. Fieldwork ]</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+      <div class="collection">
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.01"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item — what it is, where it's from, why it matters. ]">
+          <div class="plate" data-no="C.1"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.01</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.01</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.02"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.2"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.02</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.02</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.03"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.3"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.03</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.03</span></div>
+        </button>
+      </div>
+    </div>
+
+    <div class="subcollection rise">
+      <div class="subhead">
+        <span class="sn">C · II</span>
+        <h3>[ Subcollection heading — e.g. Maps &amp; Figures ]</h3>
+        <span class="ct">[ note ]</span>
+      </div>
+      <div class="collection">
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.04"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.4"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.04</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.04</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.05"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ A longer note about this item. ]">
+          <div class="plate" data-no="C.5"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.05</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.05</span></div>
+        </button>
+
+        <button class="item rise" data-title="[ Item title ]" data-acc="C.06"
+                data-origin="[ Origin / date ]" data-medium="[ Medium ]"
+                data-desc="[ Duplicate a &lt;button class='item'&gt; block to add more items. ]">
+          <div class="plate" data-no="C.6"><div class="reveal"><div class="t">[ Item title ]</div><div class="a">C.06</div></div></div>
+          <div class="label"><span class="ttl">[ Item title ]</span><span class="no">C.06</span></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="colophon">
+  <div class="wrap">
+    <div class="row">
+      <span class="name">Your Name</span>
+      <a href="mailto:you@example.edu">Email</a>
+      <a href="#">Google Scholar</a>
+      <a href="#">CV (PDF)</a>
+      <a href="#">ORCID</a>
+      <span class="set">Last updated [ Month Year ]</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ====================== LIGHTBOX ====================== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Collection item detail">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <div class="lb-card">
+    <div class="plate" id="lbPlate" data-no=""></div>
+    <div class="lb-meta">
+      <span class="accession" id="lbAcc"></span>
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+      <dl id="lbDl">
+        <dt>Origin</dt><dd id="lbOrigin"></dd>
+        <dt>Medium</dt><dd id="lbMedium"></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* reveal-on-scroll */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:.12 });
+  document.querySelectorAll('.rise').forEach(el=>io.observe(el));
+
+  /* active nav link based on visible section */
+  const navLinks = [...document.querySelectorAll('nav.links a')];
+  const navIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){
+      navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#'+e.target.id));
+    }});
+  }, { rootMargin:'-45% 0px -50% 0px' });
+  document.querySelectorAll('main section[id]').forEach(s=>navIO.observe(s));
+
+  /* ---- lightbox, shared by collection + research ---- */
+  const lb = document.getElementById('lightbox');
+  const lbClose = document.getElementById('lbClose');
+  const set = (id,val)=>document.getElementById(id).textContent = val || '';
+  function openLightbox({title,desc,acc,origin,medium,imgSrc}){
+    set('lbTitle',title); set('lbDesc',desc); set('lbAcc',acc);
+    const dl = document.getElementById('lbDl');
+    if(origin || medium){ dl.style.display=''; set('lbOrigin',origin||'—'); set('lbMedium',medium||'—'); }
+    else { dl.style.display='none'; }
+    const plate = document.getElementById('lbPlate');
+    plate.setAttribute('data-no', acc || '');
+    plate.style.backgroundImage = imgSrc ? `url(${imgSrc})` : '';
+    plate.style.backgroundSize='cover'; plate.style.backgroundPosition='center';
+    lb.classList.add('open'); document.body.style.overflow='hidden'; lbClose.focus();
+  }
+  const closeLb = ()=>{ lb.classList.remove('open'); document.body.style.overflow=''; };
+  lbClose.addEventListener('click', closeLb);
+  lb.addEventListener('click', e=>{ if(e.target===lb) closeLb(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLb(); });
+
+  /* collection items */
+  document.querySelectorAll('.item').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      const d = item.dataset; const img = item.querySelector('img.plate');
+      openLightbox({ title:d.title, desc:d.desc, acc:d.acc, origin:d.origin, medium:d.medium, imgSrc:img?img.src:'' });
+    });
+  });
+
+  /* research plates — click (or Enter/Space) to enlarge */
+  document.querySelectorAll('.record .plate.zoomable').forEach(p=>{
+    const rec = p.closest('.record');
+    const open = ()=>{
+      const h = rec.querySelector('h3'); const blurb = rec.querySelector('.body > p');
+      const src = p.tagName === 'IMG' ? p.src : (p.querySelector('img') ? p.querySelector('img').src : '');
+      openLightbox({ title:h?h.textContent:'', desc:blurb?blurb.textContent:'', acc:p.dataset.acc, imgSrc:src });
+    };
+    p.addEventListener('click', open);
+    p.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); open(); } });
+  });
+
+  /* ---- theme toggle (auto-detects system preference, remembers choice) ---- */
+  const root = document.documentElement;
+  (function initTheme(){
+    let t = null;
+    try { t = localStorage.getItem('theme'); } catch(e){}
+    if(!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if(t === 'dark') root.setAttribute('data-theme','dark');
+  })();
+  document.getElementById('themeToggle').addEventListener('click', ()=>{
+    const dark = root.getAttribute('data-theme') === 'dark';
+    if(dark) root.removeAttribute('data-theme'); else root.setAttribute('data-theme','dark');
+    try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch(e){}
+  });
+</script>
+</body>
+</html>
