@@ -444,5 +444,15 @@
     try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch(e){}
   });
 </script>
+     <script>
+  // On load, jump past most of the banner to the content.
+  window.addEventListener('load', function () {
+    var hero = document.querySelector('.hero .wrap');
+    if (hero) {
+      var y = hero.getBoundingClientRect().top + window.scrollY - 70; // 70 ≈ nav height
+      window.scrollTo(0, y);
+    }
+  });
+</script>
 </body>
 </html>
