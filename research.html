@@ -164,7 +164,7 @@
   .record:first-of-type{ border-top:1px solid var(--rule); }
   .record .plate{ aspect-ratio:3/2; transition:border-color .25s; }        /* placeholder box keeps a shape */
   .record .plate:hover{ border-color:var(--accent); }
-  .record img.plate{ aspect-ratio:auto; height:auto; border:none; background:none; }  /* real photo: natural shape, no frame */
+  .record img.plate{ aspect-ratio:auto; height:auto; max-height:520px; width:auto; max-width:100%; border:none; background:none; }  /* real photo: natural shape, no frame */
   .record:nth-of-type(even) .plate{ order:2; }
   .record .body{ max-width:70ch; }
   .record .head{ display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
