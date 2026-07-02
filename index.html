@@ -444,15 +444,16 @@
     try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch(e){}
   });
 </script>
-     <script>
-  // On load, jump past most of the banner to the content.
-  window.addEventListener('load', function () {
+<script>
+  function jumpToContent() {
     var hero = document.querySelector('.hero .wrap');
     if (hero) {
-      var y = hero.getBoundingClientRect().top + window.scrollY - 20; // 70 ≈ nav height
+      var y = hero.getBoundingClientRect().top + window.scrollY - 20;
       window.scrollTo(0, y);
     }
-  });
+  }
+  window.addEventListener('load', jumpToContent);
+  window.addEventListener('pageshow', function (e) { if (e.persisted) jumpToContent(); });
 </script>
 </body>
 </html>
