@@ -263,7 +263,7 @@
   .record{ grid-template-columns:auto 1fr; gap:clamp(28px,3.5vw,56px); align-items:start; }
   .record:nth-of-type(even){ grid-template-columns:1fr auto; }
   .record .body{ max-width:none; }
-  .record h3{ text-wrap:normal; }                    /* let the title fill the line */
+  .record h3{ text-wrap:normal !important; }                   /* let the title fill the line */
   .record img.plate{ width:auto; height:auto; max-height:440px; max-width:none; }  /* natural shape, height-capped */
   .record div.plate{ width:320px; max-width:100%; }  /* empty-project placeholder box */
   @media (max-width:820px){
