@@ -449,7 +449,7 @@
   window.addEventListener('load', function () {
     var hero = document.querySelector('.hero .wrap');
     if (hero) {
-      var y = hero.getBoundingClientRect().top + window.scrollY - 70; // 70 ≈ nav height
+      var y = hero.getBoundingClientRect().top + window.scrollY - 20; // 70 ≈ nav height
       window.scrollTo(0, y);
     }
   });
