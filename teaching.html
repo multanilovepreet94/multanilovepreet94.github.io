@@ -18,9 +18,9 @@
     --ink:      #1C2B28;   /* deep pine-slate (near-black)  */
     --ink-soft: #43504C;   /* secondary text                */
     --muted:    #847B68;   /* captions, meta, mono labels   */
-    --accent:   #294B8C;   /* fountain-pen cobalt           */
+    --accent:   #113E97;   /* fountain-pen cobalt           */
     --rule:     #D7CFBE;   /* hairline rules                */
-    --award:    #0F766E;   /* teaching award highlight      */
+    --award:    #03776C;   /* teaching award highlight      */
 
     --serif: "Fraunces", Georgia, serif;
     --sans:  "Archivo", system-ui, sans-serif;
@@ -38,7 +38,7 @@
   /* dark theme — same identity, parchment becomes the ink */
   html[data-theme="dark"]{
     --paper:#16201E; --paper-2:#1F2B28; --ink:#E8E2D4; --ink-soft:#B6B2A3;
-    --muted:#8C8670; --accent:#86ABE8; --rule:#33403A; --grain:rgba(232,226,212,.05); --award:#5EEAD4;
+    --muted:#8C8670; --accent:#9AC4FF; --rule:#33403A; --grain:rgba(232,226,212,.05); --award:#4FF0D9;
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -215,7 +215,7 @@
   .record .tags a{ transition:border-color .2s, background .2s, transform .2s; }
 
   /* ---- teaching cards ------------------------------------------------- */
-  .courses{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .courses{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
   .course{ border:1px solid var(--rule); background:var(--paper-2); padding:26px 26px 28px; border-radius:3px; }
   .course .term{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
                  color:var(--accent); margin-bottom:14px; display:inline-block;
@@ -296,6 +296,7 @@
 
   /* ---- responsive ----------------------------------------------------- */
   @media (max-width:820px){
+    .courses{ grid-template-columns:1fr; }
     .hero-grid{ grid-template-columns:1fr; }
     .hero-plate{ max-width:240px; margin:8px 0 0; order:-1; }
     .record{ grid-template-columns:1fr; gap:20px; }
