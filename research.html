@@ -14,14 +14,14 @@
 <style>
   :root{
     --paper:#FBFAF6; --paper-2:#FFFFFF; --ink:#1C2B28; --ink-soft:#43504C;
-    --muted:#847B68; --accent:#294B8C; --rule:#D7CFBE;
+    --muted:#847B68; --accent:#294B8C; --rule:#D7CFBE; --jmp:#9B2C2C;
     --serif:"Fraunces",Georgia,serif; --sans:"Archivo",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
     --edge:clamp(20px,6vw,110px); --maxw:1440px;
     --grain:rgba(28,43,40,.07); --scrim:rgba(16,22,20,.92); --on-scrim:#F1ECE0; --overlay:rgba(16,22,20,.80);
   }
   html[data-theme="dark"]{
     --paper:#16201E; --paper-2:#1F2B28; --ink:#E8E2D4; --ink-soft:#B6B2A3;
-    --muted:#8C8670; --accent:#86ABE8; --rule:#33403A; --grain:rgba(232,226,212,.05);
+    --muted:#8C8670; --accent:#86ABE8; --rule:#33403A; --grain:rgba(232,226,212,.05); --jmp:#F08A80;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
@@ -100,6 +100,8 @@
   .record .body{ max-width:none; }                          /* text uses the full remaining width */
   .record h3{ font-family:var(--serif); font-weight:500; font-size:clamp(20px,2vw,26px);
               line-height:1.15; letter-spacing:-.01em; text-wrap:normal; }
+  .record h3 .jmp{ font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--jmp);
+                   margin-left:10px; white-space:nowrap; }
   .record .head{ display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
   .record .accession{ display:none; }
   .record .yr{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.06em; }
@@ -192,7 +194,7 @@
           <span class="accession">R.001</span>
           <span class="yr">2026</span>
         </div>
-        <h3>Military Procurement and Spatial Structural Change: The Long-Run Effects of the US Civil War</h3>
+        <h3>Military Procurement and Spatial Structural Change: The Long-Run Effects of the US Civil War<span class="jmp" title="Job Market Paper">JMP</span></h3>
            <p> AEA - 2026 , UEA - 2026 (Student Prize (Finalist))  </p>
         <div class="tags">
           <a href="mailto:ls12@illinois.edu">Draft available on request</a>
