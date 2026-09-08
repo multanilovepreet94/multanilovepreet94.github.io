@@ -102,6 +102,10 @@
               line-height:1.15; letter-spacing:-.01em; text-wrap:normal; }
   .record h3 .jmp{ font-family:var(--sans); font-style:italic; font-weight:600; font-size:.9em;
                    color:var(--jmp); margin-left:10px; white-space:nowrap; }
+  .wip{ border-top:1px solid var(--rule); }
+  .wip li{ list-style:none; padding:24px 0; border-bottom:1px solid var(--rule); }
+  .wip li h3{ font-family:var(--serif); font-weight:500; font-size:clamp(18px,1.8vw,23px);
+              line-height:1.25; letter-spacing:-.01em; }
   .record .head{ display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
   .record .accession{ display:none; }
   .record .yr{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.06em; }
@@ -262,21 +266,11 @@
         <span class="ct">[ note ]</span>
       </div>
 
-    <article class="record rise">
-      
-      <div class="body">
-        <div class="head">
-          <span class="accession">R.003</span>
-          <span class="yr">2026</span>
-        </div>
-        <h3> </h3>
-        <p>  </p>
-        <details class="abs">
-          <summary>Abstract</summary>
-          <div class="abs-body">[ Abstract text. ]</div>
-        </details>
-      </div>
-    </article>
+    <ul class="wip">
+      <li class="rise"><h3>A Spatial Implication of a Classic Heavy Industrial Policy</h3></li>
+      <li class="rise"><h3>Infrastructure Push and Local Structural Change</h3></li>
+      <li class="rise"><h3>Creating Industries</h3></li>
+    </ul>
     </div>
   </div>
 </section>
